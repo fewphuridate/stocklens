@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StockLens — คัดหุ้นไทยและต่างประเทศด้วยข้อมูล</title>
+<meta name="description" content="จัดอันดับหุ้นไทยและต่างประเทศตามระยะเวลาลงทุน 1/3/6/9 เดือน จากปัจจัยพื้นฐาน งบการเงิน ข่าว และสถิติราคา อัปเดตรายวัน">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232a78d6'/><path d='M7 21l6-6 4 4 8-9' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css?v=2">
+<script>try { var t = localStorage.getItem('sl-theme'); if (t) document.documentElement.dataset.theme = JSON.parse(t); } catch (e) {}</script>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="#/th"><span class="brand-mark">◆</span>StockLens<span class="brand-sub">คัดหุ้นด้วยข้อมูล อัปเดตรายวัน</span></a>
+    <nav class="tabs" id="tabs" aria-label="เมนูหลัก">
+      <button data-tab="th">หุ้นไทย</button>
+      <button data-tab="us">หุ้นต่างประเทศ</button>
+      <button data-tab="watch">รายการติดตาม<span class="count" id="watch-count"></span></button>
+      <button data-tab="track">ผลงานย้อนหลัง</button>
+      <button data-tab="method">วิธีคิดคะแนน</button>
+    </nav>
+    <div class="topbar-right">
+      <span class="updated" id="updated"></span>
+      <button class="icon-btn" id="theme-btn" title="สลับโหมดสว่าง/มืด" aria-label="สลับโหมดสว่าง/มืด">◐</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="strip" id="strip" aria-label="ภาวะตลาด"></section>
+  <div id="view"><div class="loading">กำลังโหลดข้อมูล…</div></div>
+</main>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true" aria-label="รายละเอียดหุ้น"></aside>
+<div class="tooltip" id="tooltip" role="status" aria-live="polite"></div>
+
+<footer class="wrap footer">
+  <b>ข้อควรทราบ:</b> StockLens เป็นเครื่องมือคัดกรองหุ้นด้วยข้อมูลเชิงปริมาณ ไม่ใช่คำแนะนำการลงทุนเฉพาะบุคคล และผู้พัฒนาไม่ใช่ผู้แนะนำการลงทุนที่ได้รับอนุญาต
+  ข้อมูลมาจาก Yahoo Finance และ Google News ซึ่งอาจล่าช้าหรือคลาดเคลื่อนได้ สถิติในอดีตไม่ได้รับประกันผลตอบแทนในอนาคต
+  ตรวจสอบข้อมูลกับแหล่งทางการ (เช่น SET, SEC ของบริษัท) และประเมินความเสี่ยงที่รับได้ก่อนตัดสินใจลงทุนทุกครั้ง
+</footer>
+
+<script src="assets/charts.js?v=2"></script>
+<script src="assets/app.js?v=2"></script>
+</body>
+</html>

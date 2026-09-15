@@ -1,0 +1,12 @@
+# ข้อมูลดิบที่ดึงไว้ชั่วคราว และ log
+cache/
+logs/
+__pycache__/
+*.pyc
+.venv/
+.claude/
+
+# ไฟล์ข้อมูลที่สร้างใหม่ทุกครั้งที่รัน (ไม่ต้องเก็บใน git)
+# เก็บเฉพาะ web/data/snapshots/ และ web/data/history/ ซึ่งเป็นประวัติที่ต้องสะสมต่อเนื่อง
+web/data/*.json
+web/data/stocks/

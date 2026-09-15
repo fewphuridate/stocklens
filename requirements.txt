@@ -1,0 +1,6 @@
+yfinance>=1.0
+pandas>=2.2
+numpy>=2.0
+requests>=2.31
+# ไม่บังคับ: สรุปข่าวด้วย Claude (python -m pipeline.build --ai)
+# anthropic>=1.0

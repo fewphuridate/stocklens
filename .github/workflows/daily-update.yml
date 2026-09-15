@@ -1,0 +1,70 @@
+# อัปเดตข้อมูลหุ้นทุกเช้า (ประเทศไทย) แล้ว deploy เว็บขึ้น GitHub Pages
+# ตั้งค่า: Settings > Pages > Source = "GitHub Actions"
+# (ไม่บังคับ) สรุปข่าวด้วย AI: Settings > Secrets and variables > Actions > New secret ชื่อ ANTHROPIC_API_KEY
+name: Daily update
+
+on:
+  schedule:
+    - cron: "30 23 * * 1-5"   # 06:30 น. เวลาไทย วันอังคาร-เสาร์ (หลังตลาดสหรัฐฯ ปิด)
+  workflow_dispatch:
+  push:                        # แก้โค้ดแล้ว push -> อัปเดตเว็บทันที
+    branches: [main]
+    paths-ignore: ["web/data/**", "README.md"]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: daily-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build data
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          ARGS=""
+          if [ -n "$ANTHROPIC_API_KEY" ]; then
+            pip install anthropic
+            ARGS="--ai"
+          fi
+          python -m pipeline.build $ARGS
+
+      - name: Commit history (หุ้นที่แนะนำแต่ละวัน + ประวัติคะแนน ใช้วัดผลงานย้อนหลัง)
+        run: |
+          git config user.name "stocklens-bot"
+          git config user.email "stocklens-bot@users.noreply.github.com"
+          git add web/data/snapshots web/data/history
+          git diff --cached --quiet || git commit -m "data: daily update $(date -u +%Y-%m-%d)"
+          git pull --rebase origin main
+          git push
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web
+
+  deploy:
+    needs: update
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
